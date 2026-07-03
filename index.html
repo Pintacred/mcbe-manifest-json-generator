@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCBE manifest.json Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="./favicon.png">
+</head>
+
+<body style="background-color: #16141F;">
+    <a href="https://pintacred.github.io/mcbe-manifest-json-generator/" style="position: absolute; top: 0; right: 0; padding: 1em;">source code</a>
+    <h1><span><img src="./favicon.png" alt="📝" style="width: 1em;"></span> MCBE manifest.json Generator</h1>
+    
+    <div id="mainDivision">
+        <div id="leftDivision">
+            <!-- general options for website -->
+            <div class="separatorDiv">
+                <input type="checkbox" id="darkmode">
+                <label for="darkmode">Dark Mode</label>
+                <br><br>
+
+                <label for="importFile">Import 'manifest.json' File:</label><br>
+                <input type="file" id="importFile" accept=".json"> <!-- must be manifest.json (aka a json file) -->
+            </div>
+
+            <!-- header/modules -->
+            <details class="separatorDiv" open>
+                <summary><strong>HEADER & MODULES</strong></summary> <!-- make this into a collapsible -->
+                <br>
+                <label for="packname">Pack Name:</label><br>
+                <input type="text" id="packname" placeholder="Pack Name" style="font-size:medium; height: 2em;">
+                <br><br>
+
+                <label for="packdesc">Pack Description:</label><br>
+                <textarea id="packdesc" rows="10" placeholder="Pack description goes here..."></textarea>
+                <br><br>
+
+                <label for="versionA">Version:</label>
+                <input type="number" id="versionA" min="0" value="0" size="2">
+                <input type="number" id="versionB" min="0" value="0" size="2">
+                <input type="number" id="versionC" min="0" value="1" size="2">
+                <br><br>
+
+                <label for="minEngineVerA">Min Game Version:</label>
+                <input type="number" id="minEngineVerA" min="1" value="1" size="2">
+                <input type="number" id="minEngineVerB" min="0" value="26" size="2">
+                <input type="number" id="minEngineVerC" min="0" value="10" size="2">
+
+                <!--
+
+                <br><br>
+
+                <input type="checkbox" id="autoRefreshUUID" checked>
+                <label for="autoRefreshUUID">Generate new UUIDs for every change</label>
+                <br>
+                <button style="height: 2em;">Generate New UUIDs</button>
+
+                -->
+            </details>
+
+            <!-- metadata -->
+            <details class="separatorDiv">
+                <summary><strong>METADATA<span class="OptionalLabel"> (Optional)</span></strong></summary>
+                <br>
+
+                <label for="authors">Author(s) (separate using new lines): </label><br>
+                <textarea id="authors" rows="3">
+            </textarea><br>
+                <br>
+                <label for="metadataWebsiteURL">Website: </label><br>
+                <input type="text" id="metadataWebsiteURL" placeholder="www._____..."><br>
+            </details>
+
+            <!-- capabilities -->
+            <details class="separatorDiv">
+                <summary><strong>CAPABILITIES<span class="OptionalLabel"> (Optional)</span></strong></summary> <!-- make this into a collapsible -->
+                <br>
+                <form>
+                    <input type="checkbox" id="pbr" value="pbr" checked>
+                    <label for="pbr">Supports Shaders</label> <!-- hover on text to see more details -->
+                    <br>
+                    <input type="checkbox" id="expCustUI" value="experimental_custom_ui">
+                    <!-- hide as advanced option -->
+                    <label for="expCustUI">Can use Experimental Custom UI</label>
+                    <!-- hover on text to see more details -->
+                    <br>
+                    <input type="checkbox" id="raytraced" value="raytraced"> <!-- hide as advanced option -->
+                    <label for="raytraced">Uses Ray Tracing Functionality</label>
+                    <!-- hover on text to see more details -->
+                    <br>
+                    <input type="checkbox" id="chem" value="chemistry"> <!-- hide as advanced option -->
+                    <label for="chem">Can Modify Chemistry Behavior</label> <!-- hover on text to see more details -->
+                    <br>
+                    <input type="checkbox" id="editExt" value="editorExtension"> <!-- hide as advanced option -->
+                    <label for="editExt">Contains Extensions for Minecraft Editor</label>
+                    <!-- hover on text to see more details -->
+                    <br>
+                </form>
+            </details>
+
+            <!-- subpacks -->
+            <details class="separatorDiv">
+                <summary><strong>SUBPACKS<span class="OptionalLabel"> (Optional)</span></strong></summary> <!-- make this into a collapsible -->
+                <br>
+                <input type="button" value="+ Add New Subpack +" id="btnAddSubpack2" style="width: 100%; height: 2em;"
+                    hidden>
+                <div id="subpacksDiv"> <!-- space where added inputs go -->
+                </div>
+                <input type="button" value="+ Add New Subpack +" id="btnAddSubpack" style="width: 100%; height: 2em;">
+            </details>
+
+            <!-- settings -->
+            <details class="separatorDiv">
+                <summary><strong>SETTINGS<span class="OptionalLabel"> (Optional)</span></strong></summary> <!-- make this into a collapsible -->
+                <br>
+                <input type="button" value="+ Add New Setting +" id="btnAddSettings2" style="width: 100%; height: 2em;"
+                    hidden>
+                <div id="settingsDiv"> <!-- space where added inputs go -->
+                </div>
+                <input type="button" value="+ Add New Setting +" id="btnAddSettings" style="width: 100%; height: 2em;">
+            </details>
+        </div>
+        <div id="rightDivision">
+            <div class="separatorDiv">
+                <div id="packPreviewOptions">
+                    <div style="flex: 0;">
+                        <!-- <label for="previewMode">Preview Mode:</label>
+                        <select id="previewMode">
+                            <option value="textFile">Text File</option>
+                            <option value="ingameSettings">In-game Settings</option>
+                        </select> -->
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 0.25em;">
+                        <button type="button" id="copyToClipboardBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#e3e3e3">
+                                <path
+                                    d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z" />
+                            </svg>
+                            &nbsp;Copy text
+                        </button>
+
+                        <button type="button" id="downloadFileBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#e3e3e3">
+                                <path
+                                    d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+                            </svg>
+                            &nbsp;Download manifest.json file
+                        </button>
+                    </div>
+                </div>
+
+                <div id="packPreviewFileText">
+                    <textarea id="copyableTextArea" readonly></textarea>
+                </div>
+
+                <!-- <div id="packPreviewIngame">
+                    <div id="previewTitleAndDesc">
+                        <img src="./Assets/pack_icon.png" alt="pack icon">
+                        <p id="ingamePackname">PACK_NAME</p>
+                        <p id="ingamePackdesc">PACK_DESCRIPTION</p>
+                    </div>
+                    <div id="previewSettings">
+                        <canvas id="canvasSettingsPreview" style="image-rendering: crisp-edges;"></canvas>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <br><br><br><br><br>
+
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/main.js"></script>
+    <!-- <script src="scripts/settingsui.js"></script> -->
+</body>
+
+</html>

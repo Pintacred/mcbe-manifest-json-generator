@@ -1,0 +1,353 @@
+@font-face {
+  font-family: 'Mojangles';
+  src: url('./fonts/MinecraftRegular-Bmg3.otf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mojangles';
+  src: url('./fonts/MinecraftBold-nMK1.otf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mojangles';
+  src: url('./fonts/MinecraftItalic-R8Mo.otf');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Mojangles';
+  src: url('./fonts/MinecraftBoldItalic-1y1e.otf');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* LIGHT MODE */
+:root {
+  color-scheme: light;
+  --main-body-color: #ffffff;
+  --sepDiv-color: #f0f1f3;
+  --inp-fld-color: #E9E8EA;
+  --text-bg-color: #FFFFFF;
+  --input-borders-color: #888495;
+  --separator-divs-color: #91949f;
+
+  --primary-color-1: #4392e8;
+  --primary-color-1-dark: #2b75c4;
+  --primary-color-1-darker: #17589e;
+
+  --primary-color-2: #a6b8cb;
+  --primary-color-2-dark: #8896a6;
+
+  --text-color-main: #212326;
+  --text-color-inputs: #000000;
+  --text-color-buttons: #ffffff;
+
+  --close-btn-bg: #ffcaca00;
+  --close-btn-bg-hover: #ff8f8f;
+  --close-btn-color-text: #1c1c1c;
+
+  --danger-color: #e00038;
+  --danger-bgcolor: #ffd2dd;
+
+  --warn-color: #c89c00;
+  --warn-bgcolor: #fff6b2;
+
+  --success-color: #76c573;
+
+  --info-color: #73bec5;
+  /* --box-shadow-clr: #00000045; */
+  --box-shadow-clr: #00000000;
+}
+
+/* DARK MODE */
+.darkmode {
+  color-scheme: dark;
+  --main-body-color: #16141F;
+  --sepDiv-color: #1D1C27;
+  --inp-fld-color: #24242E;
+  --text-bg-color: #2A2C36;
+  --input-borders-color: #4c5264;
+  --separator-divs-color: #3c414e;
+
+  --primary-color-1: #567fab;
+  --primary-color-1-dark: #375d87;
+  --primary-color-1-darker: #213c5b;
+
+  --primary-color-2: #4d5a68;
+  --primary-color-2-dark: #394450;
+
+  --text-color-main: #ececec;
+  --text-color-inputs: #ececec;
+  --text-color-buttons: #ececec;
+
+  --close-btn-bg: #b0494900;
+  --close-btn-bg-hover: #b04949;
+  --close-btn-color-text: #ffffff;
+
+  --danger-color: #d95564;
+  --danger-bgcolor: #491424;
+
+  --warn-color: #d9ca55;
+  --warn-bgcolor: #4b4625;
+
+  --success-color: #76c573;
+  --info-color: #73bec5;
+  /* --box-shadow-clr: #00000074; */
+  --box-shadow-clr: #00000000;
+}
+
+/* ===== DOCUMENT ELEMENTS ===== */
+
+body {
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  padding-left: 2em;
+  padding-right: 2em;
+  background-color: var(--main-body-color);
+  color: var(--text-color-main);
+  accent-color: var(--primary-color-1);
+}
+
+textarea {
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--input-borders-color);
+  background-color: var(--text-bg-color);
+  color: var(--text-color-inputs);
+  box-shadow: 0px 1px 3px var(--box-shadow-clr) inset;
+  outline-width: 1px;
+  outline-style: none;
+  outline-color: transparent;
+}
+
+input[type="text"],
+input[type="number"] {
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  background-color: var(--text-bg-color);
+  color: var(--text-color-inputs);
+  border-color: var(--input-borders-color);
+  box-shadow: 0px 1px 3px var(--box-shadow-clr) inset;
+  outline-width: 1px;
+  outline-style: none;
+  outline-color: transparent;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline-style: solid;
+  outline-color: var(--primary-color-1);
+  box-shadow: 0px 0px 4px var(--primary-color-1);
+}
+
+input.warn {
+  color: var(--danger-color);
+  background-color: var(--danger-bgcolor);
+  border-color: var(--danger-color);
+}
+
+button,
+input[type="button"],
+select {
+  background-color: var(--primary-color-1);
+  color: var(--text-color-buttons);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px var(--box-shadow-clr);
+  transition-duration: 0.1s;
+  cursor: pointer;
+}
+
+button:hover,
+input[type="button"]:hover,
+select:hover {
+  background-color: var(--primary-color-1-dark);
+  /* color: var(--text-color-buttons); */
+}
+
+svg {
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--primary-color-1);
+  cursor: pointer;
+}
+
+input[type="file"] {
+  cursor: pointer;
+}
+
+::placeholder {
+  font-style: italic;
+}
+
+.OptionalLabel {
+  opacity: 50%;
+}
+
+/* ===== MAIN DIVISION ===== */
+#mainDivision {
+  display: flex;
+}
+
+#leftDivision {
+  flex: 4;
+}
+
+#rightDivision {
+  flex: 6;
+}
+
+.separatorDiv {
+  margin: 0.5em;
+  padding: 1em;
+  background-color: var(--sepDiv-color);
+  border-radius: 10px;
+  box-shadow: 0px 1px 3px var(--box-shadow-clr);
+  border: solid;
+  border-color: var(--separator-divs-color);
+  border-width: 1px;
+}
+
+summary {
+  cursor: pointer;
+}
+
+/* ===== LEFT DIVISION ===== */
+#packname,
+#packdesc,
+#authors,
+#metadataWebsiteURL {
+  box-sizing: border-box;
+  width: 85%;
+}
+
+.genericDiv {
+  display: flex;
+  padding: 0.25em;
+  margin: 0.25em;
+  background-color: var(--inp-fld-color);
+  border-radius: 10px;
+  box-shadow: 0px 1px 3px var(--box-shadow-clr);
+  border: solid;
+  border-color: var(--separator-divs-color);
+  border-width: 1px;
+}
+
+/* Subpack: Up/Down Buttons */
+.divForUpAndDownBtns {
+  width: 2em;
+  display: flex;
+  flex-direction: column;
+}
+
+.btnUp {
+  width: 100%;
+  height: 50%;
+  margin-bottom: 0.125em;
+  background-color: var(--primary-color-2);
+  border-radius: 7.5px;
+  color: var(--text-color-main);
+}
+
+.btnUp:hover {
+  background-color: var(--primary-color-2-dark);
+}
+
+svg.btnUp {
+  color: currentColor;
+}
+
+.btnDown {
+  width: 100%;
+  height: 50%;
+  margin-top: 0.125em;
+  background-color: var(--primary-color-2);
+  border-radius: 7.5px;
+  color: var(--text-color-main);
+}
+
+.btnDown:hover {
+  background-color: var(--primary-color-2-dark);
+}
+
+svg.btnDown {
+  color: currentColor;
+}
+
+/* Subpack: Main Field */
+.divForMainSubpackInputs,
+.divForMainSettingsInputs {
+  /* background-color: rgb(218, 218, 36); */
+  flex: 1;
+  padding: 1em;
+}
+
+/* Subpack: Close Button */
+.btnClose {
+  color: var(--close-btn-color-text);
+  background-color: var(--close-btn-bg);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnClose:hover {
+  background-color: var(--close-btn-bg-hover);
+}
+
+#copyableTextArea {
+  display: flex;
+  width: 100%;
+  resize: vertical;
+  white-space: nowrap;
+  font-family: monospace;
+  field-sizing: content;
+  outline-style: none;
+  box-shadow: none;
+}
+
+#authors,
+.subpackDescription {
+  min-height: 4.5em;
+  field-sizing: content;
+}
+
+/* ===== RIGHT DIVISION ===== */
+#ingamePackname {
+  font-family: Mojangles;
+}
+
+#ingamePackdesc {
+  font-family: Calibri;
+}
+
+#copyToClipboardBtn,
+#downloadFileBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#packPreviewOptions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25em;
+  margin-bottom: 0.5em;
+}
