@@ -7,6 +7,8 @@ const defaultValueVerC = 1;
 const defaultValueMEVA = 1;
 const defaultValueMEVB = 26;
 const defaultValueMEVC = 10;
+const defaultValueHeaderUUID = crypto.randomUUID();
+const defaultValueModuleUUID = crypto.randomUUID();
 // CAPABILITIES
 const defaultValuePBR = true;
 const defaultValueExpCustUI = false;
@@ -30,6 +32,8 @@ let valueVerC;
 let valueMEVA;
 let valueMEVB;
 let valueMEVC;
+let valueHeaderUUID;
+let valueModuleUUID;
 // CAPABILITIES
 let valuePBR;
 let valueExpCustUI;
@@ -54,6 +58,8 @@ function resetValueToDefault() {
   valueMEVA = defaultValueMEVA;
   valueMEVB = defaultValueMEVB;
   valueMEVC = defaultValueMEVC;
+  valueHeaderUUID = defaultValueHeaderUUID
+  valueModuleUUID = defaultValueModuleUUID
   // CAPABILITIES
   valuePBR = defaultValuePBR;
   valueExpCustUI = defaultValueExpCustUI;
@@ -79,6 +85,33 @@ const fieldVerC = document.getElementById("versionC");
 const fieldMEVA = document.getElementById("minEngineVerA");
 const fieldMEVB = document.getElementById("minEngineVerB");
 const fieldMEVC = document.getElementById("minEngineVerC");
+const fieldHeaderUUID = document.getElementById("headerUUID");
+const fieldModuleUUID = document.getElementById("moduleUUID");
+
+function addWarnToVersions(a, b, c) {
+  if (
+    (a.value == 0 && b.value == 0 && c.value == 0)
+    ||
+    (a.value < 0 || b.value < 0 || c.value < 0)
+  ) {
+    a.classList.add("warn");
+    b.classList.add("warn");
+    c.classList.add("warn");
+  } else {
+    a.classList.remove("warn");
+    b.classList.remove("warn");
+    c.classList.remove("warn");
+  }
+}
+// addWarnToVersions(fieldVerA, fieldVerB, fieldVerC)
+// addWarnToVersions(fieldMEVA, fieldMEVB, fieldMEVC)
+fieldVerA.addEventListener('input', function () { addWarnToVersions(fieldVerA, fieldVerB, fieldVerC) })
+fieldVerB.addEventListener('input', function () { addWarnToVersions(fieldVerA, fieldVerB, fieldVerC) })
+fieldVerC.addEventListener('input', function () { addWarnToVersions(fieldVerA, fieldVerB, fieldVerC) })
+fieldMEVA.addEventListener('input', function () { addWarnToVersions(fieldMEVA, fieldMEVB, fieldMEVC) })
+fieldMEVB.addEventListener('input', function () { addWarnToVersions(fieldMEVA, fieldMEVB, fieldMEVC) })
+fieldMEVC.addEventListener('input', function () { addWarnToVersions(fieldMEVA, fieldMEVB, fieldMEVC) })
+
 // CAPABILITIES
 const fieldPBR = document.getElementById("pbr");
 const fieldExpCustUI = document.getElementById("expCustUI");
@@ -99,6 +132,8 @@ function putValuesToFields() {
   fieldMEVA.value = valueMEVA;
   fieldMEVB.value = valueMEVB;
   fieldMEVC.value = valueMEVC;
+  fieldHeaderUUID.value = valueHeaderUUID;
+  fieldModuleUUID.value = valueModuleUUID;
   // CAPABILITIES
   fieldPBR.checked = valuePBR;
   fieldExpCustUI.checked = valueExpCustUI;
@@ -122,6 +157,9 @@ function changeValuesToFields() {
   valueMEVA = fieldMEVA.value;
   valueMEVB = fieldMEVB.value;
   valueMEVC = fieldMEVC.value;
+
+  valueHeaderUUID = fieldHeaderUUID.value;
+  valueModuleUUID = fieldModuleUUID.value;
 
   valuePBR = fieldPBR.checked ? true : false;
   valueExpCustUI = fieldExpCustUI.checked ? true : false;
@@ -159,6 +197,9 @@ importFileBtn.addEventListener("change", async function () {
   valueMEVA = minEngVer[0];
   valueMEVB = minEngVer[1];
   valueMEVC = minEngVer[2];
+
+  valueHeaderUUID = manifestJsonFile.header.uuid;
+  valueModuleUUID = manifestJsonFile.modules[0].uuid;
 
   const authorsArray = manifestJsonFile.metadata?.authors;
   if (authorsArray) {
@@ -207,13 +248,13 @@ importFileBtn.addEventListener("change", async function () {
 
       // Get the inputs inside this newly created settings
       const type = newSettings.querySelector('.settingsType');
-      const text = newSettings.querySelector('.textLTS');
-      const name = newSettings.querySelector('.nameXTS');
-      const min = newSettings.querySelector('.minXXS');
-      const max = newSettings.querySelector('.maxXXS');
-      const step = newSettings.querySelector('.stepXXS');
-      const defNum = newSettings.querySelector('.defaultXXS');
-      const defBool = newSettings.querySelector('.defaultXTX');
+      const text = newSettings.querySelector('.settingsInputText');
+      const name = newSettings.querySelector('.settingsInputName');
+      const min = newSettings.querySelector('.settingsInputMin');
+      const max = newSettings.querySelector('.settingsInputMax');
+      const step = newSettings.querySelector('.settingsInputStep');
+      const defNum = newSettings.querySelector('.settingsInputDefnum');
+      const defBool = newSettings.querySelector('.settingsInputDefbool');
 
       // Fill them with imported data
       type.value = valueSettings[i].type ?? 'toggle';
@@ -258,45 +299,63 @@ function createSubpackInputField() {
   const divForMainSubpackInputs = document.createElement('div');
   divForMainSubpackInputs.className = 'divForMainSubpackInputs';
 
+  // Description
   const labelDesc = document.createElement('label');
   labelDesc.htmlFor = 'subpackDescription';
   labelDesc.textContent = 'Subpack Title/Description: ';
-  const textareaDesc = document.createElement('textarea');
-  textareaDesc.className = 'subpackDescription';
-  textareaDesc.rows = '3';
-  textareaDesc.style.width = '85%';
 
+  const textareaDesc = document.createElement('textarea');
+  textareaDesc.classList.add('subpackDescription');
+  textareaDesc.rows = 3;
+  textareaDesc.style.width = '100%';
+
+  // Folder name
   const labelFolder = document.createElement('label');
   labelFolder.htmlFor = 'subpackFolderName';
   labelFolder.textContent = 'Subpack Folder Name: ';
-  const inputFolder = document.createElement('input');
-  inputFolder.type = 'text';
-  inputFolder.className = 'subpackFolderName';
-  inputFolder.style.width = '85%';
-  inputFolder.placeholder = 'folder_name'
 
+  const inputFolder = document.createElement('input'); inputFolder.type = 'text';
+  inputFolder.classList.add('subpackFolderName');
+  inputFolder.style.width = '100%';
+  inputFolder.placeholder = 'folder_name';
+
+  // Memory tier
   const labelTier = document.createElement('label');
   labelTier.htmlFor = 'subpackMemoryTier';
   labelTier.textContent = 'Memory Performance Tier: ';
-  const inputTier = document.createElement('input');
-  inputTier.type = 'number';
-  inputTier.className = 'subpackMemoryTier';
-  inputTier.size = '3';
-  inputTier.min = '0';
-  inputTier.value = '0';
 
-  divForMainSubpackInputs.appendChild(labelDesc);
-  divForMainSubpackInputs.appendChild(document.createElement('br'));
-  divForMainSubpackInputs.appendChild(textareaDesc);
-  divForMainSubpackInputs.appendChild(document.createElement('br'));
-  divForMainSubpackInputs.appendChild(document.createElement('br'));
-  divForMainSubpackInputs.appendChild(labelFolder);
-  divForMainSubpackInputs.appendChild(document.createElement('br'));
-  divForMainSubpackInputs.appendChild(inputFolder);
-  divForMainSubpackInputs.appendChild(document.createElement('br'));
-  divForMainSubpackInputs.appendChild(document.createElement('br'));
-  divForMainSubpackInputs.appendChild(labelTier);
-  divForMainSubpackInputs.appendChild(inputTier);
+  const inputTier = document.createElement('input'); inputTier.type = 'number';
+  inputTier.classList.add('subpackMemoryTier');
+  inputTier.classList.add('supportsWarn');
+  inputTier.size = 3;
+  inputTier.min = 0;
+  inputTier.value = 0;
+
+  // List
+  const list = document.createElement('ul');
+  list.classList.add('subpackInputsList');
+
+  // Description
+  const listDesc = document.createElement('li');
+  listDesc.appendChild(labelDesc);
+  listDesc.appendChild(document.createElement('br'));
+  listDesc.appendChild(textareaDesc);
+  list.appendChild(listDesc);
+
+  // Folder name
+  const listFolder = document.createElement('li');
+  listFolder.appendChild(labelFolder);
+  listFolder.appendChild(document.createElement('br'));
+  listFolder.appendChild(inputFolder);
+  list.appendChild(listFolder);
+
+  // Memory tier
+  const listTier = document.createElement('li');
+  listTier.appendChild(labelTier);
+  listTier.appendChild(inputTier);
+  list.appendChild(listTier);
+
+  divForMainSubpackInputs.appendChild(list);
 
   return divForMainSubpackInputs;
 }
@@ -310,7 +369,9 @@ function createSettingsInputField() {
   labelForType.htmlFor = 'settingsType';
   labelForType.textContent = 'Type: ';
   const settingsType = document.createElement('select')
-  settingsType.className = 'settingsType';
+  settingsType.classList.add('settingsType');
+  settingsType.classList.add('blueButton');
+
   const optionLabel = document.createElement('option')
   optionLabel.value = 'label';
   optionLabel.innerHTML = 'Label';
@@ -320,171 +381,195 @@ function createSettingsInputField() {
   const optionSlider = document.createElement('option')
   optionSlider.value = 'slider';
   optionSlider.innerHTML = 'Slider';
+  const optionDropdown = document.createElement('option')
+  optionDropdown.value = 'dropdown';
+  optionDropdown.innerHTML = 'Dropdown';
 
   settingsType.appendChild(optionLabel);
   settingsType.appendChild(optionToggle);
   settingsType.appendChild(optionSlider);
+  // settingsType.appendChild(optionDropdown); // not available yet :3
 
   // text_LTS
-  const labelTextLTS = document.createElement('label');
-  labelTextLTS.htmlFor = 'textLTS';
-  labelTextLTS.textContent = 'Text: ';
-  const textLTS = document.createElement('textarea');
-  textLTS.className = 'textLTS';
-  textLTS.style.width = '85%';
-  textLTS.rows = '3';
+  const labelsettingsInputText = document.createElement('label');
+  labelsettingsInputText.htmlFor = 'settingsInputText';
+  labelsettingsInputText.textContent = 'Text: ';
+  const settingsInputText = document.createElement('textarea');
+  settingsInputText.classList.add('settingsInputText');
+  settingsInputText.style.resize = 'vertical';
+  settingsInputText.style.width = '100%';
+  settingsInputText.rows = '3';
 
   // name_XTS
-  const labelNameXTS = document.createElement('label');
-  labelNameXTS.htmlFor = 'nameXTS';
-  labelNameXTS.textContent = 'Name: ';
-  const nameXTS = document.createElement('input'); nameXTS.type = 'text';
-  nameXTS.className = 'nameXTS';
-  nameXTS.placeholder = 'space:name';
-  nameXTS.style.width = '85%';
+  const labelsettingsInputName = document.createElement('label');
+  labelsettingsInputName.htmlFor = 'settingsInputName';
+  labelsettingsInputName.textContent = 'Name: ';
+  const settingsInputName = document.createElement('input'); settingsInputName.type = 'text';
+  settingsInputName.classList.add('settingsInputName');
+  settingsInputName.placeholder = 'space:name';
+  settingsInputName.style.width = '100%';
 
   // min_XXS
-  const labelMinXXS = document.createElement('label');
-  labelMinXXS.htmlFor = 'minXXS';
-  labelMinXXS.textContent = 'Min: ';
-  const minXXS = document.createElement('input'); minXXS.type = 'number';
-  minXXS.className = 'minXXS';
-  minXXS.size = 2;
-  minXXS.value = 0;
+  const settingsInputMin = document.createElement('input'); settingsInputMin.type = 'number';
+  settingsInputMin.classList.add('settingsInputMin');
+  settingsInputMin.classList.add('supportsWarn');
+  settingsInputMin.size = 2;
+  settingsInputMin.value = 0;
+  settingsInputMin.title = 'Min value';
+
+  const sliderslider = document.createElement('input'); sliderslider.type = 'range';
+  sliderslider.style.flexGrow = 1;
+  sliderslider.style.width = 0; // for some reason this fixes the issue of the slider not adjusting its width, if it works it works
 
   // max_XXS
-  const labelMaxXXS = document.createElement('label');
-  labelMaxXXS.htmlFor = 'maxXXS';
-  labelMaxXXS.textContent = 'Max: ';
-  const maxXXS = document.createElement('input'); maxXXS.type = 'number';
-  maxXXS.className = 'maxXXS';
-  maxXXS.size = 2;
-  maxXXS.value = 10;
+  const settingsInputMax = document.createElement('input'); settingsInputMax.type = 'number';
+  settingsInputMax.classList.add('settingsInputMax');
+  settingsInputMax.classList.add('supportsWarn');
+  settingsInputMax.size = 2;
+  settingsInputMax.value = 10;
+  settingsInputMax.title = 'Max value';
 
   // step_XXS
-  const labelStepXXS = document.createElement('label');
-  labelStepXXS.htmlFor = 'stepXXS';
-  labelStepXXS.textContent = 'Step:';
-  const stepXXS = document.createElement('input'); stepXXS.type = 'number';
-  stepXXS.className = 'stepXXS';
-  stepXXS.size = 2;
-  stepXXS.value = 1;
+  const labelsettingsInputStep = document.createElement('label');
+  labelsettingsInputStep.htmlFor = 'settingsInputStep';
+  labelsettingsInputStep.textContent = 'Step:';
+  const settingsInputStep = document.createElement('input'); settingsInputStep.type = 'number';
+  settingsInputStep.classList.add('settingsInputStep');
+  settingsInputStep.classList.add('supportsWarn');
+  settingsInputStep.size = 2;
+  settingsInputStep.value = 1;
+  settingsInputStep.min = 0;
 
   // default_XXS
-  const labelDefaultXXS = document.createElement('label');
-  labelDefaultXXS.htmlFor = 'defaultXXS';
-  labelDefaultXXS.textContent = 'Default: ';
-  const defaultXXS = document.createElement('input'); defaultXXS.type = 'number';
-  defaultXXS.className = 'defaultXXS';
-  defaultXXS.size = 2;
-  defaultXXS.value = 5;
-  defaultXXS.min = minXXS.value;
-  defaultXXS.max = maxXXS.value;
+  const labelsettingsInputDefnum = document.createElement('label');
+  labelsettingsInputDefnum.htmlFor = 'settingsInputDefnum';
+  labelsettingsInputDefnum.textContent = 'Default: ';
+  const settingsInputDefnum = document.createElement('input'); settingsInputDefnum.type = 'number';
+  settingsInputDefnum.classList.add('settingsInputDefnum');
+  settingsInputDefnum.classList.add('supportsWarn');
+  settingsInputDefnum.size = 2;
+  settingsInputDefnum.value = 5;
+  settingsInputDefnum.min = settingsInputMin.value;
+  settingsInputDefnum.max = settingsInputMax.value;
 
-  minXXS.addEventListener('input', function () {
-    defaultXXS.min = Number(minXXS.value);
-    if (Number(defaultXXS.value) < Number(minXXS.value)) {
-      defaultXXS.value = minXXS.value;
+  function updateRangeInput() {
+    if (!settingsInputMin.validity.valid || !settingsInputMax.validity.valid) {
+      settingsInputMin.classList.add('warn');
+      settingsInputMax.classList.add('warn');
+    } else {
+      settingsInputMin.classList.remove('warn');
+      settingsInputMax.classList.remove('warn');
+      settingsInputMin.max = settingsInputMax.value;
+      settingsInputMax.min = settingsInputMin.value;
+      sliderslider.min = settingsInputMin.value;
+      sliderslider.max = settingsInputMax.value;
+      settingsInputDefnum.min = settingsInputMin.value;
+      settingsInputDefnum.max = settingsInputMax.value;
+      if (Number(settingsInputDefnum.value) < Number(settingsInputMin.value)) {
+        settingsInputDefnum.value = settingsInputMin.value;
+      }
+      if (Number(settingsInputDefnum.value) > Number(settingsInputMax.value)) {
+        settingsInputDefnum.value = settingsInputMax.value;
+      }
+      sliderslider.value = settingsInputDefnum.value
     }
-  });
+  }
 
-  maxXXS.addEventListener('input', function () {
-    defaultXXS.max = Number(maxXXS.value);
-    if (Number(defaultXXS.value) > Number(maxXXS.value)) {
-      defaultXXS.value = maxXXS.value;
-    }
-  });
+  updateRangeInput()
+  settingsInputMin.addEventListener('input', updateRangeInput);
+  settingsInputMax.addEventListener('input', updateRangeInput);
 
   // default_XTX
-  const defaultXTX = document.createElement('input'); defaultXTX.type = 'checkbox';
-  defaultXTX.className = 'defaultXTX';
-  const labelDefaultXTX = document.createElement('label');
-  labelDefaultXTX.htmlFor = 'defaultXTX';
-  labelDefaultXTX.textContent = 'Toggled on by default';
+  const settingsInputDefbool = document.createElement('input'); settingsInputDefbool.type = 'checkbox';
+  settingsInputDefbool.className = 'settingsInputDefbool';
+  const labelsettingsInputDefbool = document.createElement('label');
+  labelsettingsInputDefbool.htmlFor = 'settingsInputDefbool';
+  labelsettingsInputDefbool.textContent = 'Toggled on by default';
+
+  // Appending the input fields ------------------------------------------------------
+
+  // list
+  const list = document.createElement('ul')
+  list.classList.add('settingsInputsList')
 
   // Type
-  const div_TYPE = document.createElement('div')
-  div_TYPE.appendChild(labelForType);
-  div_TYPE.appendChild(settingsType);
-  div_TYPE.appendChild(document.createElement('br'));
-  div_TYPE.appendChild(document.createElement('br'));
-  divForMainSetingsInputs.appendChild(div_TYPE);
+  const listType = document.createElement('li')
+  listType.appendChild(labelForType);
+  listType.appendChild(settingsType);
+  list.appendChild(listType);
 
   // Text
-  const div_TEXT = document.createElement('div')
-  div_TEXT.appendChild(labelTextLTS);
-  div_TEXT.appendChild(document.createElement('br'));
-  div_TEXT.appendChild(textLTS);
-  div_TEXT.appendChild(document.createElement('br'));
-  divForMainSetingsInputs.appendChild(div_TEXT);
+  const listText = document.createElement('li')
+  listText.appendChild(labelsettingsInputText);
+  listText.appendChild(document.createElement('br'));
+  listText.appendChild(settingsInputText);
+  list.appendChild(listText);
 
   // Name (namespace:name)
-  const div_NAME = document.createElement('div')
-  div_NAME.appendChild(document.createElement('br'));
-  div_NAME.appendChild(labelNameXTS);
-  div_NAME.appendChild(document.createElement('br'));
-  div_NAME.appendChild(nameXTS);
-  div_NAME.appendChild(document.createElement('br'));
-  div_NAME.appendChild(document.createElement('br'));
-  divForMainSetingsInputs.appendChild(div_NAME);
+  const listName = document.createElement('li')
+  listName.appendChild(labelsettingsInputName);
+  listName.appendChild(settingsInputName);
+  list.appendChild(listName);
 
-  // Minimum
-  const div_MIN = document.createElement('div')
-  div_MIN.appendChild(labelMinXXS);
-  div_MIN.appendChild(minXXS);
-  divForMainSetingsInputs.appendChild(div_MIN);
-
-  // Maximum
-  const div_MAX = document.createElement('div')
-  div_MAX.appendChild(labelMaxXXS);
-  div_MAX.appendChild(maxXXS);
-  divForMainSetingsInputs.appendChild(div_MAX);
+  // Range
+  const rangeDiv = document.createElement('div')
+  rangeDiv.style.display = 'flex';
+  rangeDiv.style.width = '100%'
+  rangeDiv.append(settingsInputMin, sliderslider, settingsInputMax);
+  const listRange = document.createElement('li')
+  listRange.append(rangeDiv);
+  list.appendChild(listRange);
 
   // Step
-  const div_STEP = document.createElement('div')
-  div_STEP.appendChild(labelStepXXS);
-  div_STEP.appendChild(stepXXS);
-  divForMainSetingsInputs.appendChild(div_STEP);
+  const listStep = document.createElement('li')
+  listStep.appendChild(labelsettingsInputStep);
+  listStep.appendChild(settingsInputStep);
+  list.appendChild(listStep);
 
   // Default (number)
-  const div_DEFNUM = document.createElement('div')
-  div_DEFNUM.appendChild(labelDefaultXXS);
-  div_DEFNUM.appendChild(defaultXXS);
-  divForMainSetingsInputs.appendChild(div_DEFNUM);
+  const listDefnum = document.createElement('li')
+  listDefnum.appendChild(labelsettingsInputDefnum);
+  listDefnum.appendChild(settingsInputDefnum);
+  list.appendChild(listDefnum);
 
   // Default (boolean)
-  const div_DEFBOOL = document.createElement('div')
-  div_DEFBOOL.appendChild(defaultXTX);
-  div_DEFBOOL.appendChild(labelDefaultXTX);
-  divForMainSetingsInputs.appendChild(div_DEFBOOL);
+  const listDefbool = document.createElement('li')
+  listDefbool.appendChild(settingsInputDefbool);
+  listDefbool.appendChild(labelsettingsInputDefbool);
+  list.appendChild(listDefbool);
+
+  divForMainSetingsInputs.appendChild(list)
 
   // When triggered, checks the type and only shows the needed input fields
   function showOnlyNeededSettings() {
     if (settingsType.value == "label") {
-      div_TEXT.hidden = false;
-      div_NAME.hidden = true;
-      div_MIN.hidden = true;
-      div_MAX.hidden = true;
-      div_STEP.hidden = true;
-      div_DEFNUM.hidden = true;
-      div_DEFBOOL.hidden = true;
+      listType.hidden = false;
+      listName.hidden = true;
+      listRange.hidden = true;
+      listStep.hidden = true;
+      listDefnum.hidden = true;
+      listDefbool.hidden = true;
     } else if (settingsType.value == "toggle") {
-      div_TEXT.hidden = false;
-      div_NAME.hidden = false;
-      div_MIN.hidden = true;
-      div_MAX.hidden = true;
-      div_STEP.hidden = true;
-      div_DEFNUM.hidden = true;
-      div_DEFBOOL.hidden = false;
+      listType.hidden = false;
+      listName.hidden = false;
+      listRange.hidden = true;
+      listStep.hidden = true;
+      listDefnum.hidden = true;
+      listDefbool.hidden = false;
     } else if (settingsType.value == "slider") {
-      div_TEXT.hidden = false;
-      div_NAME.hidden = false;
-      div_MIN.hidden = false;
-      div_MAX.hidden = false;
-      div_STEP.hidden = false;
-      div_DEFNUM.hidden = false;
-      div_DEFBOOL.hidden = true;
+      listType.hidden = false;
+      listName.hidden = false;
+      listRange.hidden = false;
+      listStep.hidden = false;
+      listDefnum.hidden = false;
+      listDefbool.hidden = true;
     }
+    // listType.hidden = false;
+    // listName.hidden = false;
+    // listRange.hidden = false;
+    // listStep.hidden = false;
+    // listDefnum.hidden = false;
+    // listDefbool.hidden = false;
   }
   showOnlyNeededSettings() // trigger as initialization
 
@@ -496,60 +581,36 @@ function createSettingsInputField() {
   return divForMainSetingsInputs;
 }
 
-// SUBPACKS: Input Field UI
+// Input Field UI
 function createGenericInputFieldDiv(createInputFieldBox) {
   const div = document.createElement('div');
-  div.className = "genericDiv";
+  div.classList.add('mainInputFieldDiv');
 
   // Up/Down buttons section
   const divForUpAndDownBtns = document.createElement('div');
-  divForUpAndDownBtns.className = 'divForUpAndDownBtns';
+  divForUpAndDownBtns.classList.add('divForUpAndDownBtns');
 
   const btnUp = document.createElement('button'); btnUp.type = 'button';
-  btnUp.className = 'btnUp';
-  /**/const svgUp = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  /**/svgUp.setAttribute('width', 24);
-  /**/svgUp.setAttribute('height', 24);
-  /**/svgUp.setAttribute('viewBox', '0 -960 960 960');
-  /*    */const pathUp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  /*    */pathUp.setAttribute('d', 'M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z');
-  /*    */pathUp.setAttribute('fill', 'currentColor');
-  /**/svgUp.appendChild(pathUp);
-  btnUp.appendChild(svgUp);
+  btnUp.classList.add('btnUp');
+  btnUp.innerHTML = '<span class="material-symbols-outlined">keyboard_arrow_up</span>'
 
   const btnDown = document.createElement('button'); btnDown.type = 'button';
-  btnDown.className = 'btnDown';
-  /**/const svgDown = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  /**/svgDown.setAttribute('width', 24);
-  /**/svgDown.setAttribute('height', 24);
-  /**/svgDown.setAttribute('viewBox', '0 -960 960 960');
-  /*    */const pathDown = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  /*    */pathDown.setAttribute('d', 'M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z');
-  /*    */pathDown.setAttribute('fill', 'currentColor');
-  /**/svgDown.appendChild(pathDown);
-  btnDown.appendChild(svgDown);
+  btnDown.classList.add('btnDown');
+  btnDown.innerHTML = '<span class="material-symbols-outlined">keyboard_arrow_down</span>'
 
   divForUpAndDownBtns.appendChild(btnUp);
   divForUpAndDownBtns.appendChild(btnDown);
 
   // Close button section
   const divForCloseBtn = document.createElement('div');
-  divForCloseBtn.className = 'divForCloseBtn';
+  divForCloseBtn.classList.add('divForCloseBtn');
   divForCloseBtn.style.width = '1.5em';
   divForCloseBtn.style.height = '1.5em';
   divForCloseBtn.style.marginLeft = 'auto';
 
   const btnClose = document.createElement('button'); btnClose.type = 'button';
-  btnClose.className = 'btnClose';
-  /**/const svgClose = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  /**/svgClose.setAttribute('width', 24);
-  /**/svgClose.setAttribute('height', 24);
-  /**/svgClose.setAttribute('viewBox', '0 -960 960 960');
-  /*    */const pathClose = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  /*    */pathClose.setAttribute('d', 'm256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z');
-  /*    */pathClose.setAttribute('fill', 'currentColor');
-  /**/svgClose.appendChild(pathClose);
-  btnClose.appendChild(svgClose);
+  btnClose.classList.add('btnClose');
+  btnClose.innerHTML = '<span class="material-symbols-outlined">close</span>';
 
   divForCloseBtn.appendChild(btnClose);
 
@@ -594,7 +655,7 @@ function createGenericInputFieldDiv(createInputFieldBox) {
 
 // Subpack Data Collector
 function collectAllSubpackData() {
-  valueSubpack = Array.from(subpacksDiv.querySelectorAll('.genericDiv')).map(div => ({
+  valueSubpack = Array.from(subpacksDiv.querySelectorAll('.mainInputFieldDiv')).map(div => ({
     name: div.querySelector('.subpackDescription').value,
     folder_name: div.querySelector('.subpackFolderName').value,
     memory_performance_tier: div.querySelector('.subpackMemoryTier').value
@@ -603,15 +664,15 @@ function collectAllSubpackData() {
 
 // Settings Data Collector
 function collectAllSettingsData() {
-  valueSettings = Array.from(settingsDiv.querySelectorAll('.genericDiv')).map(div => ({
+  valueSettings = Array.from(settingsDiv.querySelectorAll('.mainInputFieldDiv')).map(div => ({
     type: div.querySelector('.settingsType').value,
-    text: div.querySelector('.textLTS').value,
-    name: div.querySelector('.nameXTS').value,
-    min: div.querySelector('.minXXS').value,
-    max: div.querySelector('.maxXXS').value,
-    step: div.querySelector('.stepXXS').value,
-    DEFNUM: div.querySelector('.defaultXXS').value,
-    DEFBOOL: div.querySelector('.defaultXTX').checked
+    text: div.querySelector('.settingsInputText').value,
+    name: div.querySelector('.settingsInputName').value,
+    min: div.querySelector('.settingsInputMin').value,
+    max: div.querySelector('.settingsInputMax').value,
+    step: div.querySelector('.settingsInputStep').value,
+    DEFNUM: div.querySelector('.settingsInputDefnum').value,
+    DEFBOOL: div.querySelector('.settingsInputDefbool').checked
   }));
 }
 
@@ -622,6 +683,15 @@ function updateButtonVisibility() {
   if (valueSettings.length > 0) { btnAddSettings2.hidden = false }
   else { btnAddSettings2.hidden = true }
 }
+
+const regenHeaderUUID = document.getElementById('regenHeaderUUID');
+regenHeaderUUID.addEventListener('click', function () {
+  fieldHeaderUUID.value = crypto.randomUUID();
+})
+const regenModuleUUID = document.getElementById('regenModuleUUID');
+regenModuleUUID.addEventListener('click', function () {
+  fieldModuleUUID.value = crypto.randomUUID();
+})
 
 // Subpack Adder Button
 const subpacksDiv = document.getElementById('subpacksDiv'); // Place
@@ -709,7 +779,7 @@ function generateTextFile() {
       header: {
         name: valuePackname,
         description: valuePackdesc,
-        uuid: crypto.randomUUID(),
+        uuid: valueHeaderUUID,
         version: `${valueVerA}.${valueVerB}.${valueVerC}`,
         min_engine_version: `${valueMEVA}.${valueMEVB}.${valueMEVC}`
       },
@@ -717,7 +787,7 @@ function generateTextFile() {
         {
           description: valuePackdesc,
           type: "resources",
-          uuid: crypto.randomUUID(),
+          uuid: valueModuleUUID,
           version: `${valueVerA}.${valueVerB}.${valueVerC}`
         }
       ],
@@ -778,20 +848,9 @@ window.onbeforeunload = function () {
 
 // -------------------------------------------------------------------------------------
 
-const verWarn = document.getElementById('verWarn');
-const MEVWarn = document.getElementById('MEVWarn');
 
-function addWarnToVersions(a, b, c) {
-  if (a.value == 0 && b.value == 0 && c.value == 0) {
-    a.classList.add("warn");
-    b.classList.add("warn");
-    c.classList.add("warn");
-  } else {
-    a.classList.remove("warn");
-    b.classList.remove("warn");
-    c.classList.remove("warn");
-  }
-}
+
+
 
 function refreshAll() {
   changeValuesToFields()
@@ -800,8 +859,7 @@ function refreshAll() {
   generateTextFile();
   updateButtonVisibility();
 
-  addWarnToVersions(fieldVerA, fieldVerB, fieldVerC)
-  addWarnToVersions(fieldMEVA, fieldMEVB, fieldMEVC)
+
 
   copyableTextArea.value = fileText;
   // ingamePackname.innerHTML = valuePackname;

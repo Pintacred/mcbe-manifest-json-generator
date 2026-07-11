@@ -2,162 +2,200 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCBE manifest.json Generator</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/x-icon" href="./favicon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCBE Resource Pack manifest.json Generator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="icon" type="image/x-icon" href="./favicon.png">
 </head>
 
-<body style="background-color: #16141F;">
-    <a href="https://github.com/Pintacred/mcbe-manifest-json-generator" style="position: absolute; top: 0; right: 0; padding: 1em;">source code</a>
-    <h1><span><img src="./favicon.png" alt="📝" style="width: 1em;"></span> MCBE manifest.json Generator</h1>
-    
-    <div id="mainDivision">
+<body>
+
+  <div class="wholepage">
+    <div class="main">
+      <h1 style="text-align: center;"><span><img src="./favicon.png" alt="📝" style="width: 1em;"></span> MCBE Resource Pack
+        manifest.json Generator</h1>
+
+      <div id="mainDivision">
         <div id="leftDivision">
-            <!-- general options for website -->
-            <div class="separatorDiv">
+          <!-- general options for website -->
+          <details class="separatorDiv">
+            <summary><strong>GENERAL</strong></summary>
+            <hr>
+
+            <ul class="inputsList">
+              <li>
                 <input type="checkbox" id="darkmode">
                 <label for="darkmode">Dark Mode</label>
-                <br><br>
-
+              </li>
+              <li>
+                <!-- must be manifest.json (aka a json file) -->
                 <label for="importFile">Import 'manifest.json' File:</label><br>
-                <input type="file" id="importFile" accept=".json"> <!-- must be manifest.json (aka a json file) -->
-            </div>
+                <input type="file" id="importFile" accept=".json">
+              </li>
+            </ul>
+          </details>
 
-            <!-- header/modules -->
-            <details class="separatorDiv" open>
-                <summary><strong>HEADER & MODULES</strong></summary> <!-- make this into a collapsible -->
+          <!-- header/modules -->
+          <details class="separatorDiv" open>
+            <summary><strong>HEADER & MODULES</strong></summary> <!-- make this into a collapsible -->
+            <hr>
+            <ul class="inputsList">
+              <li>
+                <label for="packname">Pack Name</label><br>
+                <input type="text" id="packname" placeholder="Pack Name">
+              </li>
+              <li>
+                <label for="packdesc">Pack Description</label><br>
+                <textarea id="packdesc" rows="10" placeholder="Pack description"></textarea>
+              </li>
+              <li>
+                <label for="versionA">Version</label>
                 <br>
-                <label for="packname">Pack Name:</label><br>
-                <input type="text" id="packname" placeholder="Pack Name" style="font-size:medium; height: 2em;">
-                <br><br>
-
-                <label for="packdesc">Pack Description:</label><br>
-                <textarea id="packdesc" rows="10" placeholder="Pack description goes here..."></textarea>
-                <br><br>
-
-                <label for="versionA">Version:</label>
-                <input type="number" id="versionA" min="0" value="0" size="2">
-                <input type="number" id="versionB" min="0" value="0" size="2">
-                <input type="number" id="versionC" min="0" value="1" size="2">
-                <br><br>
-
-                <label for="minEngineVerA">Min Game Version:</label>
-                <input type="number" id="minEngineVerA" min="1" value="1" size="2">
-                <input type="number" id="minEngineVerB" min="0" value="26" size="2">
-                <input type="number" id="minEngineVerC" min="0" value="10" size="2">
-
-                <!--
-
-                <br><br>
-
-                <input type="checkbox" id="autoRefreshUUID" checked>
-                <label for="autoRefreshUUID">Generate new UUIDs for every change</label>
+                <input type="number" id="versionA" min="0" value="0" size="2" class="supportsWarn">
+                <input type="number" id="versionB" min="0" value="0" size="2" class="supportsWarn">
+                <input type="number" id="versionC" min="0" value="1" size="2" class="supportsWarn">
+              </li>
+              <li>
+                <label for="minEngineVerA">Min Game Version</label>
                 <br>
-                <button style="height: 2em;">Generate New UUIDs</button>
+                <input type="number" id="minEngineVerA" min="1" value="1" size="2" class="supportsWarn">
+                <input type="number" id="minEngineVerB" min="0" value="26" size="2" class="supportsWarn">
+                <input type="number" id="minEngineVerC" min="0" value="10" size="2" class="supportsWarn">
+              </li>
+              <li>
+                <label for="headerUUID">Header UUID</label><br>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <input type="text" id="headerUUID" style="flex-grow: 1;">
+                  <button type="button" id="regenHeaderUUID" class="blueButton">
+                    <span class="material-symbols-outlined">
+                      autorenew
+                    </span>
+                  </button>
+                </div>
+              </li>
+              <li>
+                <label for="moduleUUID">Module UUID</label><br>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <input type="text" id="moduleUUID" style="flex-grow: 1;">
+                  <button type="button" id="regenModuleUUID" class="blueButton">
+                    <span class="material-symbols-outlined">
+                      autorenew
+                    </span>
+                  </button>
+                </div>
+              </li>
+              <!--
+            <li>
+              <input type="checkbox" id="autoRefreshUUID" checked>
+              <label for="autoRefreshUUID">Generate new UUIDs for every change</label>
+              <br>
+              <button style="height: 2em;">Generate New UUIDs</button>
+            </li>
+          -->
+            </ul>
+          </details>
 
-                -->
-            </details>
+          <!-- metadata -->
+          <details class="separatorDiv">
+            <summary><strong>METADATA<span class="OptionalLabel"> (Optional)</span></strong></summary>
+            <hr>
 
-            <!-- metadata -->
-            <details class="separatorDiv">
-                <summary><strong>METADATA<span class="OptionalLabel"> (Optional)</span></strong></summary>
-                <br>
-
+            <ul class="inputsList">
+              <li>
                 <label for="authors">Author(s) (separate using new lines): </label><br>
-                <textarea id="authors" rows="3">
-            </textarea><br>
-                <br>
+                <textarea id="authors" rows="3"></textarea>
+              </li>
+              <li>
                 <label for="metadataWebsiteURL">Website: </label><br>
-                <input type="text" id="metadataWebsiteURL" placeholder="www._____..."><br>
-            </details>
+                <input type="text" id="metadataWebsiteURL" placeholder="www._____...">
+              </li>
+            </ul>
+          </details>
 
-            <!-- capabilities -->
-            <details class="separatorDiv">
-                <summary><strong>CAPABILITIES<span class="OptionalLabel"> (Optional)</span></strong></summary> <!-- make this into a collapsible -->
-                <br>
+          <!-- capabilities -->
+          <details class="separatorDiv">
+            <summary><strong>CAPABILITIES<span class="OptionalLabel"> (Optional)</span></strong></summary>
+            <hr>
+
+            <ul class="inputsList">
+              <li>
                 <form>
-                    <input type="checkbox" id="pbr" value="pbr" checked>
-                    <label for="pbr">Supports Shaders</label> <!-- hover on text to see more details -->
-                    <br>
-                    <input type="checkbox" id="expCustUI" value="experimental_custom_ui">
-                    <!-- hide as advanced option -->
-                    <label for="expCustUI">Can use Experimental Custom UI</label>
-                    <!-- hover on text to see more details -->
-                    <br>
-                    <input type="checkbox" id="raytraced" value="raytraced"> <!-- hide as advanced option -->
-                    <label for="raytraced">Uses Ray Tracing Functionality</label>
-                    <!-- hover on text to see more details -->
-                    <br>
-                    <input type="checkbox" id="chem" value="chemistry"> <!-- hide as advanced option -->
-                    <label for="chem">Can Modify Chemistry Behavior</label> <!-- hover on text to see more details -->
-                    <br>
-                    <input type="checkbox" id="editExt" value="editorExtension"> <!-- hide as advanced option -->
-                    <label for="editExt">Contains Extensions for Minecraft Editor</label>
-                    <!-- hover on text to see more details -->
-                    <br>
+                  <input type="checkbox" id="pbr" value="pbr" checked>
+                  <label for="pbr">Supports Vibrant Visuals (Shaders)</label>
+                  <br>
+                  <input type="checkbox" id="expCustUI" value="experimental_custom_ui">
+                  <label for="expCustUI">Can use Experimental Custom UI</label>
+                  <br>
+                  <input type="checkbox" id="raytraced" value="raytraced">
+                  <label for="raytraced">Uses Ray Tracing Functionality</label>
+                  <br>
+                  <input type="checkbox" id="chem" value="chemistry">
+                  <label for="chem">Can Modify Chemistry Behavior</label>
+                  <br>
+                  <input type="checkbox" id="editExt" value="editorExtension">
+                  <label for="editExt">Contains Extensions for Minecraft Editor</label>
                 </form>
-            </details>
+              </li>
+            </ul>
 
-            <!-- subpacks -->
-            <details class="separatorDiv">
-                <summary><strong>SUBPACKS<span class="OptionalLabel"> (Optional)</span></strong></summary> <!-- make this into a collapsible -->
-                <br>
-                <input type="button" value="+ Add New Subpack +" id="btnAddSubpack2" style="width: 100%; height: 2em;"
-                    hidden>
-                <div id="subpacksDiv"> <!-- space where added inputs go -->
-                </div>
-                <input type="button" value="+ Add New Subpack +" id="btnAddSubpack" style="width: 100%; height: 2em;">
-            </details>
+          </details>
 
-            <!-- settings -->
-            <details class="separatorDiv">
-                <summary><strong>SETTINGS<span class="OptionalLabel"> (Optional)</span></strong></summary> <!-- make this into a collapsible -->
-                <br>
-                <input type="button" value="+ Add New Setting +" id="btnAddSettings2" style="width: 100%; height: 2em;"
-                    hidden>
-                <div id="settingsDiv"> <!-- space where added inputs go -->
-                </div>
-                <input type="button" value="+ Add New Setting +" id="btnAddSettings" style="width: 100%; height: 2em;">
-            </details>
+          <!-- subpacks -->
+          <details class="separatorDiv">
+            <summary><strong>SUBPACKS<span class="OptionalLabel"> (Optional)</span></strong></summary>
+            <!-- make this into a collapsible -->
+            <br>
+            <input type="button" value="+ Add New Subpack +" id="btnAddSubpack2" class="blueButton"
+              style="width: 100%; height: 2em;" hidden>
+            <div id="subpacksDiv"> <!-- space where added inputs go -->
+            </div>
+            <input type="button" value="+ Add New Subpack +" id="btnAddSubpack" class="blueButton"
+              style="width: 100%; height: 2em;">
+          </details>
+
+          <!-- settings -->
+          <details class="separatorDiv">
+            <summary><strong>SETTINGS<span class="OptionalLabel"> (Optional)</span></strong></summary>
+            <br>
+            <input type="button" value="+ Add New Setting +" id="btnAddSettings2" class="blueButton"
+              style="width: 100%; height: 2em;" hidden>
+            <div id="settingsDiv"> <!-- space where added inputs go -->
+            </div>
+            <input type="button" value="+ Add New Setting +" id="btnAddSettings" class="blueButton"
+              style="width: 100%; height: 2em;">
+          </details>
         </div>
         <div id="rightDivision">
-            <div class="separatorDiv">
-                <div id="packPreviewOptions">
-                    <div style="flex: 0;">
-                        <!-- <label for="previewMode">Preview Mode:</label>
+          <div class="separatorDiv">
+            <div id="packPreviewOptions">
+              <div style="flex: 0;">
+                <!-- <label for="previewMode">Preview Mode:</label>
                         <select id="previewMode">
                             <option value="textFile">Text File</option>
                             <option value="ingameSettings">In-game Settings</option>
                         </select> -->
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 0.25em;">
-                        <button type="button" id="copyToClipboardBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                                fill="#e3e3e3">
-                                <path
-                                    d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z" />
-                            </svg>
-                            &nbsp;Copy text
-                        </button>
+              </div>
+              <div style="display: flex; justify-content: flex-end; gap: 0.25em;">
+                <button type="button" id="copyToClipboardBtn" class="blueButton">
+                  <span class="material-symbols-outlined">content_copy</span>
+                  &nbsp;Copy text
+                </button>
 
-                        <button type="button" id="downloadFileBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                                fill="#e3e3e3">
-                                <path
-                                    d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-                            </svg>
-                            &nbsp;Download manifest.json file
-                        </button>
-                    </div>
-                </div>
+                <button type="button" id="downloadFileBtn" class="blueButton">
+                  <span class="material-symbols-outlined">download</span>
+                  &nbsp;Download manifest.json file
+                </button>
+              </div>
+            </div>
 
-                <div id="packPreviewFileText">
-                    <textarea id="copyableTextArea" readonly></textarea>
-                </div>
+            <div id="packPreviewFileText">
+              <textarea id="copyableTextArea" readonly></textarea>
+            </div>
 
-                <!-- <div id="packPreviewIngame">
+            <!-- <div id="packPreviewIngame">
                     <div id="previewTitleAndDesc">
                         <img src="./Assets/pack_icon.png" alt="pack icon">
                         <p id="ingamePackname">PACK_NAME</p>
@@ -167,15 +205,47 @@
                         <canvas id="canvasSettingsPreview" style="image-rendering: crisp-edges;"></canvas>
                     </div>
                 </div> -->
-            </div>
+          </div>
         </div>
+      </div>
+
+      <br><br><br><br>
     </div>
 
-    <br><br><br><br><br>
+    <div class="footer">
+      <p><a href="https://github.com/Pintacred/mcbe-manifest-json-generator">Webpage Source Code</a></p>
+      <hr>
+      <p>Made by Pintacred<br>
+      <span class="icon-links">
+        <a href="https://github.com/Pintacred">
+          <svg class="githubicon" width="2em" height="2em" viewBox="0 0 1024 1024" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
+              transform="scale(64)" />
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/channel/UCH_TDOKFNPxpytj7UjETD_Q">
+          <svg width="2em" height="2em" viewBox="0 0 28.57 20" preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <path
+                d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 2.24288e-07 14.285 0 14.285 0C14.285 0 5.35042 2.24288e-07 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C2.24288e-07 5.35042 0 10 0 10C0 10 2.24288e-07 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5677 5.35042 27.9727 3.12324Z"
+                fill="#FF0000" />
+              <path d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z" fill="white" />
+            </g>
+          </svg>
+        </a>
+      </span>
+      </p>
+      <p>Last Updated: July 11, 2026</p>
+      
+    </div>
+  </div>
 
-    <script src="scripts/ui.js"></script>
-    <script src="scripts/main.js"></script>
-    <!-- <script src="scripts/settingsui.js"></script> -->
+  <script src="scripts/ui.js"></script>
+  <script src="scripts/main.js"></script>
+  <!-- <script src="scripts/settingsui.js"></script> -->
 </body>
 
 </html>

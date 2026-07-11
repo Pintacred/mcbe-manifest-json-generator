@@ -30,11 +30,11 @@
 :root {
   color-scheme: light;
   --main-body-color: #ffffff;
-  --sepDiv-color: #f0f1f3;
-  --inp-fld-color: #E9E8EA;
+  --sepDiv-color: #eaeef0;
+  --inp-fld-color: #e8e9ea;
   --text-bg-color: #FFFFFF;
   --input-borders-color: #888495;
-  --separator-divs-color: #91949f;
+  --separator-divs-border-color: #91949f;
 
   --primary-color-1: #4392e8;
   --primary-color-1-dark: #2b75c4;
@@ -48,11 +48,11 @@
   --text-color-buttons: #ffffff;
 
   --close-btn-bg: #ffcaca00;
-  --close-btn-bg-hover: #ff8f8f;
-  --close-btn-color-text: #1c1c1c;
+  --close-btn-bg-hover: #ffc9cf;
+  --close-btn-color-text: #e84457;
 
-  --danger-color: #e00038;
-  --danger-bgcolor: #ffd2dd;
+  --danger-color: #d41e36;
+  --danger-bgcolor: #ffe0e3;
 
   --warn-color: #c89c00;
   --warn-bgcolor: #fff6b2;
@@ -67,16 +67,16 @@
 /* DARK MODE */
 .darkmode {
   color-scheme: dark;
-  --main-body-color: #16141F;
-  --sepDiv-color: #1D1C27;
-  --inp-fld-color: #24242E;
-  --text-bg-color: #2A2C36;
+  --main-body-color: #171622;
+  --sepDiv-color: #1c1c27;
+  --inp-fld-color: #21222c;
+  --text-bg-color: #262831;
   --input-borders-color: #4c5264;
-  --separator-divs-color: #3c414e;
+  --separator-divs-border-color: #3c414e;
 
-  --primary-color-1: #567fab;
-  --primary-color-1-dark: #375d87;
-  --primary-color-1-darker: #213c5b;
+  --primary-color-1: #3970aa;
+  --primary-color-1-dark: #204e83;
+  --primary-color-1-darker: #123257;
 
   --primary-color-2: #4d5a68;
   --primary-color-2-dark: #394450;
@@ -86,8 +86,8 @@
   --text-color-buttons: #ececec;
 
   --close-btn-bg: #b0494900;
-  --close-btn-bg-hover: #b04949;
-  --close-btn-color-text: #ffffff;
+  --close-btn-bg-hover: #44060c;
+  --close-btn-color-text: #d4253c;
 
   --danger-color: #d95564;
   --danger-bgcolor: #491424;
@@ -103,15 +103,15 @@
 
 /* ===== DOCUMENT ELEMENTS ===== */
 
+html,
 body {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-  margin-left: 10vw;
-  margin-right: 10vw;
-  padding-left: 2em;
-  padding-right: 2em;
   background-color: var(--main-body-color);
   color: var(--text-color-main);
   accent-color: var(--primary-color-1);
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
 }
 
 textarea {
@@ -129,9 +129,14 @@ textarea {
   outline-color: transparent;
 }
 
+input {
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  box-sizing: border-box;
+}
+
 input[type="text"],
 input[type="number"] {
-  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1em;
   border-width: 1px;
   border-radius: 5px;
   border-style: solid;
@@ -152,29 +157,30 @@ input[type="number"]:focus {
   box-shadow: 0px 0px 4px var(--primary-color-1);
 }
 
-input.warn {
+.supportsWarn.warn,
+.supportsWarn:not(:valid) {
+  transition: 0.25s ease;
   color: var(--danger-color);
   background-color: var(--danger-bgcolor);
   border-color: var(--danger-color);
 }
 
-button,
-input[type="button"],
-select {
-  background-color: var(--primary-color-1);
+.blueButton {
   color: var(--text-color-buttons);
-  border: none;
-  border-radius: 5px;
+  background-color: var(--primary-color-1);
+  border: solid;
+  border-width: 1px;
+  border-color: var(--primary-color-1);
+  border-radius: 7.5px;
   box-shadow: 0px 1px 3px var(--box-shadow-clr);
-  transition-duration: 0.1s;
   cursor: pointer;
 }
 
-button:hover,
-input[type="button"]:hover,
-select:hover {
-  background-color: var(--primary-color-1-dark);
-  /* color: var(--text-color-buttons); */
+.blueButton:hover {
+  background-color: var(--primary-color-1-darker);
+  border: solid;
+  border-width: 1px;
+  border-color: var(--primary-color-1);
 }
 
 svg {
@@ -191,8 +197,11 @@ input[type="file"] {
   cursor: pointer;
 }
 
-::placeholder {
-  font-style: italic;
+hr {
+  border: none;
+  height: 1px;
+  color: var(--input-borders-color);
+  background-color: var(--input-borders-color);
 }
 
 .OptionalLabel {
@@ -202,25 +211,47 @@ input[type="file"] {
 /* ===== MAIN DIVISION ===== */
 #mainDivision {
   display: flex;
+  flex-wrap: wrap;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  padding-left: 0em;
+  padding-right: 0em;
+  /* gap: 20px; */
 }
 
 #leftDivision {
-  flex: 4;
+  flex: 3.5;
+  min-width: 360px;
 }
 
 #rightDivision {
-  flex: 6;
+  flex: 5;
+  min-width: 360px;
 }
 
 .separatorDiv {
   margin: 0.5em;
-  padding: 1em;
+  padding: 10px;
   background-color: var(--sepDiv-color);
   border-radius: 10px;
   box-shadow: 0px 1px 3px var(--box-shadow-clr);
   border: solid;
-  border-color: var(--separator-divs-color);
+  border-color: var(--separator-divs-border-color);
   border-width: 1px;
+}
+
+.inputsList,
+.settingsInputsList,
+.subpackInputsList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inputsList li,
+.settingsInputsList li,
+.subpackInputsList li {
+  margin-bottom: 1em;
 }
 
 summary {
@@ -233,18 +264,34 @@ summary {
 #authors,
 #metadataWebsiteURL {
   box-sizing: border-box;
-  width: 85%;
+  width: 100%;
 }
 
-.genericDiv {
+#regenHeaderUUID,
+#regenModuleUUID {
+  /* border-radius: 100%; */
+  width: 2em;
+  height: 2em;
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+}
+
+#headerUUID, #moduleUUID {
+  font-family: monospace;
+  font-size: 1.25em;
+  height: 1.5em;
+}
+
+.mainInputFieldDiv {
   display: flex;
-  padding: 0.25em;
-  margin: 0.25em;
+  padding: 0.125em;
+  margin: 5px 0 5px 0;
   background-color: var(--inp-fld-color);
   border-radius: 10px;
   box-shadow: 0px 1px 3px var(--box-shadow-clr);
   border: solid;
-  border-color: var(--separator-divs-color);
+  border-color: var(--separator-divs-border-color);
   border-width: 1px;
 }
 
@@ -255,38 +302,17 @@ summary {
   flex-direction: column;
 }
 
-.btnUp {
+.btnUp, .btnDown {
   width: 100%;
   height: 50%;
-  margin-bottom: 0.125em;
   background-color: var(--primary-color-2);
+  border: none;
   border-radius: 7.5px;
   color: var(--text-color-main);
 }
 
-.btnUp:hover {
+.btnUp:hover, .btnDown:hover {
   background-color: var(--primary-color-2-dark);
-}
-
-svg.btnUp {
-  color: currentColor;
-}
-
-.btnDown {
-  width: 100%;
-  height: 50%;
-  margin-top: 0.125em;
-  background-color: var(--primary-color-2);
-  border-radius: 7.5px;
-  color: var(--text-color-main);
-}
-
-.btnDown:hover {
-  background-color: var(--primary-color-2-dark);
-}
-
-svg.btnDown {
-  color: currentColor;
 }
 
 /* Subpack: Main Field */
@@ -294,12 +320,14 @@ svg.btnDown {
 .divForMainSettingsInputs {
   /* background-color: rgb(218, 218, 36); */
   flex: 1;
-  padding: 1em;
+  padding: 0.25em;
 }
 
 /* Subpack: Close Button */
 .btnClose {
-  color: var(--close-btn-color-text);
+  border: none;
+  border-radius: 8px;
+  color: var(--text-color-buttons);
   background-color: var(--close-btn-bg);
   width: 100%;
   height: 100%;
@@ -309,6 +337,7 @@ svg.btnDown {
 }
 
 .btnClose:hover {
+  color: var(--close-btn-color-text);
   background-color: var(--close-btn-bg-hover);
 }
 
@@ -350,4 +379,31 @@ svg.btnDown {
   justify-content: space-between;
   gap: 0.25em;
   margin-bottom: 0.5em;
+}
+
+.wholepage {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* .main {
+
+} */
+
+.footer {
+  background-color: var(--sepDiv-color);
+  border: solid;
+  border-width: 1px 0 0 0;
+  border-color: var(--input-borders-color);
+  padding: 10px;
+}
+
+.icon-links a {
+  text-decoration: none;
+}
+
+.githubicon {
+  fill: var(--text-color-main);
 }
